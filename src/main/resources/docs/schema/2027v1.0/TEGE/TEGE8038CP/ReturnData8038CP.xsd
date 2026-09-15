@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.irs.gov/efile" xmlns="http://www.irs.gov/efile" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+
+	<xsd:annotation>
+		<xsd:documentation>
+			<Description>IRS e-file Tax Exempt and Government Entities Schema - Return Data Schema for 8038CP Return</Description>
+			<TaxYear>2027</TaxYear>
+			<MaturityLevel>Final Schema Version RL10A Drop 1</MaturityLevel>
+			<ReleaseDate>May 28 2026</ReleaseDate>			
+		</xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:include schemaLocation="../../Common/efileTypes.xsd" />
+	<xsd:include schemaLocation="../../Common/BinaryAttachment.xsd" />
+
+	<xsd:include schemaLocation="IRS8038CP/IRS8038CP.xsd" />
+	<xsd:include schemaLocation="IRS8038CPScheduleA/IRS8038CPScheduleA.xsd" />
+
+	<!-- Common Dependencies (supporting info, schedules, computations, and such) -->
+	<xsd:include schemaLocation="../Common/Dependencies/AmendedReturnChanges2.xsd" />	
+	<xsd:include schemaLocation="../../CorporateIncomeTax/Common/Dependencies/GeneralDependencySmall.xsd" />
+
+	<!-- Return 8038CP -->
+	<xsd:element name="ReturnData">
+		<xsd:annotation>
+			<xsd:documentation>8038CP Return Contents</xsd:documentation>
+		</xsd:annotation>
+
+		<xsd:complexType>
+			<xsd:sequence>
+
+				<!-- Form 8038CP -->
+				<xsd:element ref="IRS8038CP"/>
+
+				<!-- Form 8038CP -->
+				<xsd:element ref="IRS8038CPScheduleA" minOccurs="0"/>
+
+				<!-- Dependencies -->
+
+				<!-- Forms 8038CP and 990-T statement -->
+				<xsd:element ref="AmendedReturnChanges2" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Amended Return Changes 2</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+
+				<xsd:element ref="BinaryAttachment" minOccurs="0" maxOccurs="5">
+					<xsd:annotation>
+						<xsd:documentation>Binary Attachment</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				
+				<!-- General Dependency Small for any Form/Schedule -->
+				<xsd:element ref="GeneralDependencySmall" minOccurs="0" maxOccurs="unbounded">
+					<xsd:annotation>
+						<xsd:documentation>General Dependency Small (attachment not identified on the form or instructions)</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+
+			</xsd:sequence>
+
+			<xsd:attributeGroup ref="ReturnDataAttributes">
+				<xsd:annotation>
+					<xsd:documentation>Common return data attributes</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attributeGroup>
+
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>
+
+

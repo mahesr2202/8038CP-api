@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.irs.gov/efile" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.irs.gov/efile" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+
+	<xsd:annotation>
+		<xsd:documentation>
+			<Description>IRS e-file TEGE Tax Schema - Amended Return Changes 2</Description>
+			<Purpose>"Include a statement that captures information about the amended return."</Purpose>
+			<TaxYear>2027</TaxYear>
+			<MaturityLevel>Final Schema Version RL10A Drop 1</MaturityLevel>
+			<ReleaseDate>May 28 2026</ReleaseDate>
+		</xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:include schemaLocation="../../../Common/efileTypes.xsd"/>
+
+
+	<!-- ============================================================== -->
+	<!-- ================== Amended Return Changes 2 ================== -->
+	<!-- ============================================================== -->
+
+
+	<xsd:element name="AmendedReturnChanges2">
+		<xsd:annotation>
+			<xsd:documentation>Amended return changes 2</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="AmendedReturnChanges2Type">
+					<xsd:attributeGroup ref="DocumentAttributes">
+						<xsd:annotation>
+							<xsd:documentation>Common return document attributes</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attributeGroup>
+					<xsd:attribute name="documentName" type="TextType" fixed="AmendedReturnChanges2">
+						<xsd:annotation>
+							<xsd:documentation>IRS internal use only. To avoid errors in the return, do not include the attribute name or value.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>	
+	
+	<xsd:complexType name="AmendedReturnChanges2Type">
+		<xsd:annotation>
+			<xsd:documentation>Content model for amended return changes 2</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AmendedReturnChanges2Grp" type="AmendedReturnChanges2GrpType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="AmendedReturnChanges2GrpType">
+		<xsd:sequence>
+		
+		<!-- Part Number -->
+		<xsd:element name="PartNum">
+			<xsd:annotation>
+				<xsd:documentation>
+					<Description>Part number</Description>
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="TextType">
+					<xsd:maxLength value="35"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:element>
+		
+		<!-- Line Num -->
+		<xsd:element name="LineNum">
+			<xsd:annotation>
+				<xsd:documentation>
+					<Description>Line number</Description>
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="TextType">
+					<xsd:maxLength value="35"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:element>
+		
+		<!-- Amount On Previous Return -->
+		<xsd:element name="OnPreviousReturnAmt" type="USDecimalAmountType">
+			<xsd:annotation>
+				<xsd:documentation>
+					<Description>Amount on previous return</Description>
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:element>
+		
+		<!-- Amount On Amended Return -->
+		<xsd:element name="OnAmendedReturnAmt" type="USDecimalAmountType">
+			<xsd:annotation>
+				<xsd:documentation>
+					<Description>Amount on amended return</Description>
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:element>
+		
+		<!-- Explanation Text -->
+		<xsd:element name="ExplanationTxt" type="ExplanationType">
+			<xsd:annotation>
+				<xsd:documentation>
+					<Description>Explanation</Description>
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:element>
+						
+		</xsd:sequence>
+	</xsd:complexType>
+	
+</xsd:schema>

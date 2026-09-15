@@ -1,0 +1,805 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.irs.gov/efile" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.irs.gov/efile" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	
+	<xsd:annotation>
+		<xsd:documentation>
+			<Description>IRS e-file Schema - IRS Form 8038-CP</Description>
+			<TaxYear>2027</TaxYear>
+			<MaturityLevel>Final Schema Version RL10A Drop 1</MaturityLevel>
+			<ReleaseDate>May 28 2026</ReleaseDate>
+		</xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:include schemaLocation="../../../Common/efileTypes.xsd"/>
+
+	<!-- ================================================================= -->
+	<!-- ======================== IRS Form 8038-CP ======================= -->
+	<!-- ================================================================= -->
+
+	<xsd:element name="IRS8038CP">
+		<xsd:annotation>
+			<xsd:documentation>IRS Form 8038-CP</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="IRS8038CPType">
+					<xsd:attributeGroup ref="DocumentAttributes">
+						<xsd:annotation>
+							<xsd:documentation>Common return document attributes</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attributeGroup>
+					<xsd:attribute name="documentName" type="xsd:string" fixed="IRS8038CP">
+						<xsd:annotation>
+							<xsd:documentation>IRS internal use only. To avoid error in the return, do not include the attribute name or value.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="referenceDocumentId" type="IdListType">
+						<xsd:annotation>
+							<xsd:documentation>List of document ID's of forms, schedules, supporting info. etc. attached to this form</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="referenceDocumentName" type="StringType" fixed="BinaryAttachment"/>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="IRS8038CPType">
+		<xsd:annotation>
+			<xsd:documentation>Content model for Form 8038-CP</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+
+			<!-- Special condition description -->
+			<xsd:element name="SpecialConditionDesc" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>
+						<Description>Special condition description</Description>
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="TextType">
+						<xsd:maxLength value="50"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+
+			<!-- Indicates this return is an amended return -->
+			<xsd:element name="AmendedReturnInd" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>
+						<Description>Indicates this return is an amended return</Description>
+						<LineNumber>Part I, Top of form</LineNumber>
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="CheckboxType">
+							<xsd:attribute name="referenceDocumentId" type="IdListType"/>
+							<xsd:attribute name="referenceDocumentName" type="StringType" fixed="AmendedReturnChanges2"/>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+
+			<!-- Part I  Information On Entity That Is To Receive Payment -->
+			<xsd:element name="EntityReceivingPaymentGrp" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>
+						<Description>Information On Entity That Is To Receive Payment</Description>
+						<LineNumber>Part I</LineNumber>
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<!-- Name of Entity that is to receive payment of the credit -->
+						<xsd:element name="BusinessName" type="BusinessNameType">
+							<xsd:annotation>
+								<xsd:documentation>
+									<Description>Name of Entity that is to receive payment of the credit</Description>
+									<LineNumber>Part I, Line 1</LineNumber>
+								</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+
+						<!-- Employer Identification Number (EIN) -->
+						<xsd:element name="EIN" type="EINType">
+							<xsd:annotation>
+								<xsd:documentation>
+									<Description>Employer Identification Number (EIN)</Description>
+									<LineNumber>Part I, Line 2</LineNumber>
+								</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+
+						<!-- Number &amp; street (or P.O. Box no. If mail is not delivered to street address)  Room/Suite City, town or post office, state, and ZIP code -->
+						<xsd:element name="USAddress" type="USAddressType">
+							<xsd:annotation>
+								<xsd:documentation>
+									<Description>Number &amp; street (or P.O. Box no. If mail is not delivered to street address)   Room/Suite City, town or post office, state, and ZIP code</Description>
+									<LineNumber>Part I, Line 3 Part I, Line 4</LineNumber>
+								</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+
+						<!-- Name of designated contact person whom IRS may call for more information -->
+						<xsd:element name="ContactPersonNm" type="PersonNameType">
+							<xsd:annotation>
+								<xsd:documentation>
+									<Description>Name of designated contact person whom IRS may call for more information</Description>
+									<LineNumber>Part I, Line 5</LineNumber>
+								</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+
+						<!-- Title of designated contact person whom IRS may call for more information -->
+						<xsd:element name="ContactPersonTitleTxt">
+							<xsd:annotation>
+								<xsd:documentation>
+									<Description>Title of designated contact person whom IRS may call for more information</Description>
+									<LineNumber>Part I, Line 5</LineNumber>
+								</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="TextType">
+									<xsd:maxLength value="35"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+
+						<!-- Telephone number of contact person shown on line 5. -->
+						<xsd:element name="ContactPersonPhoneNum" type="PhoneNumberType">
+							<xsd:annotation>
+								<xsd:documentation>
+									<Description>Telephone number of contact person shown on line 5.</Description>
+									<LineNumber>Part I, Line 6</LineNumber>
+								</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<!-- Part II  Reporting Authority -->
+			<xsd:element name="ReportingAuthorityGrp">
+				<xsd:annotation>
+					<xsd:documentation>
+						<Description>Reporting Authority</Description>
+						<LineNumber>Part II</LineNumber>
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<!-- Receiver and Issuer same entity code -->
+						<xsd:element name="ReceiverAndIssuerSameEntityCd" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>
+									<Description>Receiver and Issuer same entity code</Description>
+									<LineNumber>Part II, line 7</LineNumber>
+								</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="TextType">
+									<xsd:enumeration value="SAME"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+
+						<!-- Report Number -->
+						<xsd:element name="ReportNum">
+							<xsd:annotation>
+								<xsd:documentation>
+									<Description>Report Number</Description>
+									<LineNumber>Part II, line 10</LineNumber>
+								</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="IntegerNNType">
+									<xsd:pattern value="[248][0-9][0-9]"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+
+						<!-- Date of Issue -->
+						<xsd:element name="BondIssueDt">
+							<xsd:annotation>
+								<xsd:documentation>
+									<Description>Date of Issue</Description>
+									<LineNumber>Part II, line 12</LineNumber>
+								</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="DateType">
+									<xsd:minInclusive value="2009-02-17"/>
+									<xsd:maxInclusive value="2017-12-31"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+
+						<!-- Name of Issue -->
+						<xsd:element name="BondIssueNm">
+							<xsd:annotation>
+								<xsd:documentation>
+									<Description>Name of Issue</Description>
+									<LineNumber>Part II, line 13</LineNumber>
+								</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="TextType">
+									<xsd:maxLength value="35"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+
+						<xsd:choice minOccurs="0">
+							<!-- CUSIP number -->
+							<xsd:element name="CUSIPNum" type="CUSIPNumberType">
+								<xsd:annotation>
+									<xsd:documentation>
+										<Description>CUSIP number</Description>
+										<LineNumber>Part II, line 14</LineNumber>
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<!-- No CUSIP number -->
+							<xsd:element name="MissingCUSIPReasonCd">
+								<xsd:annotation>
+									<xsd:documentation>
+										<Description>No CUSIP number</Description>
+										<LineNumber>Part II, Line 14</LineNumber>
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="TextType">
+										<xsd:enumeration value="NONE"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+						</xsd:choice>
+
+						<!-- Name of officer or other person whom IRS may contact for more information -->
+						<xsd:element name="ContactPersonNm" type="PersonNameType">
+							<xsd:annotation>
+								<xsd:documentation>
+									<Description>Name of officer or other person whom IRS may contact for more information</Description>
+									<LineNumber>Part II, line 15</LineNumber>
+								</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+
+						<!-- Title of officer or other person whom IRS may contact for more information -->
+						<xsd:element name="ContactPersonTitleTxt">
+							<xsd:annotation>
+								<xsd:documentation>
+									<Description>Title of officer or other person whom IRS may contact for more information</Description>
+									<LineNumber>Part II, line 15</LineNumber>
+								</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="TextType">
+									<xsd:maxLength value="35"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+
+						<!-- Telephone number of contact person shown on line 15. -->
+						<xsd:element name="ContactPersonPhoneNum" type="PhoneNumberType">
+							<xsd:annotation>
+								<xsd:documentation>
+									<Description>Telephone number of contact person shown on line 15.</Description>
+									<LineNumber>Part II, line 16</LineNumber>
+								</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+
+						<xsd:choice>
+							<!-- Variable rate bond -->
+							<xsd:element name="VariableRateBondInd" type="CheckboxType">
+								<xsd:annotation>
+									<xsd:documentation>
+										<Description>Variable rate bond</Description>
+										<LineNumber>Part II, line 17a</LineNumber>
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<!-- Fixed rate bond -->
+							<xsd:element name="FixedRateBondInd" type="CheckboxType">
+								<xsd:annotation>
+									<xsd:documentation>
+										<Description>Fixed rate bond</Description>
+										<LineNumber>Part II, line 17a</LineNumber>
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+
+						<!-- Enter the issue price -->
+						<xsd:element name="IssuePriceAmt" type="USDecimalAmountPos15DgtType" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>
+									<Description>Enter the issue price</Description>
+									<LineNumber>Part II, line 17b</LineNumber>
+								</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+
+						<!-- Enter Code Number for Type of Bonds -->
+						<xsd:element name="BondTypeCd" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>
+									<Description>Enter Code Number for Type of Bonds</Description>
+									<LineNumber>Part II, line 17c</LineNumber>
+								</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="TextType">
+									<xsd:enumeration value="102"/>
+									<xsd:enumeration value="103"/>
+									<xsd:enumeration value="104"/>
+									<xsd:enumeration value="105"/>
+									<xsd:enumeration value="109"/>
+									<xsd:enumeration value="110"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<!-- Part III  Payment of Credit (For specified tax credit bonds with multiple maturities, see instructions) -->
+
+			<!-- Interest payment date to which this payment of credit relates -->
+			<xsd:element name="InterestPaymentDt">
+				<xsd:annotation>
+					<xsd:documentation>
+						<Description>Interest payment date to which this payment of credit relates</Description>
+						<LineNumber>Part III, line 18</LineNumber>
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="DateType">
+						<xsd:minInclusive value="2009-02-17"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+
+			<!-- Interest payable to bondholders on the interest payment date.  See instructions -->
+			<xsd:element name="InterestPayableAmt" type="USDecimalAmountPos15DgtType">
+				<xsd:annotation>
+					<xsd:documentation>
+						<Description>Interest payable to bondholders on the interest payment date.  See instructions</Description>
+						<LineNumber>Part III, line 19a</LineNumber>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+
+			<!-- For specified tax credit bonds only, enter the applicable credit rate determined under sec. 54A(b)(3) -->
+			<xsd:element name="Section54Ab3CreditRt" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>
+						<Description>For specified tax credit bonds only, enter the applicable credit rate determined under sec. 54A(b)(3)</Description>
+						<LineNumber>Part III, line 19b</LineNumber>
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="DecimalType">
+						<xsd:minInclusive value="0.01"/>
+						<xsd:pattern value="([0-9]|[1-9][0-9]).[0-9]{2}"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+
+			<!-- For specified tax credit bonds only, complete Schedule A and enter amount from Schedule A, line 3. -->
+			<xsd:element name="TotalEligibleInterestCmptAmt" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>
+						<Description>For specified tax credit bonds only, complete Schedule A and enter amount from Schedule A, line 3.</Description>
+						<LineNumber>Part III, line 19c</LineNumber>
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="USDecimalAmountNN15DgtType">
+							<xsd:attribute name="referenceDocumentId" type="IdListType"/>
+							<xsd:attribute name="referenceDocumentName" type="StringType" fixed="IRS8038CPScheduleA"/>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:choice>
+				<!-- Build America bonds.  Multiply line 19a by 35% (0.35) -->
+				<xsd:element name="BuildAmericaBondCreditAmt" type="USDecimalAmountNN15DgtType">
+					<xsd:annotation>
+						<xsd:documentation>
+							<Description>Build America bonds.  Multiply line 19a by 35% (0.35)</Description>
+							<LineNumber>Part III, line 20a</LineNumber>
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<!-- Recovery zone economic development bonds.  Multiply line 19a by 45% (0.45) -->
+				<xsd:element name="RcvryZoneEconomicDevBondCrAmt" type="USDecimalAmountNN15DgtType">
+					<xsd:annotation>
+						<xsd:documentation>
+							<Description>Recovery zone economic development bonds.  Multiply line 19a by 45% (0.45)</Description>
+							<LineNumber>Part III, line 20b</LineNumber>
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<!-- New clean renewable energy bonds.  Enter the smaller of lines 19a or 19c -->
+				<xsd:element name="NewCleanRenewableEgyBondCrAmt" type="USDecimalAmountNN15DgtType">
+					<xsd:annotation>
+						<xsd:documentation>
+							<Description>New clean renewable energy bonds.  Enter the smaller of lines 19a or 19c</Description>
+							<LineNumber>Part III, line 20c</LineNumber>
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<!-- Qualified energy conservation bonds. Enter the smaller of lines 19a or 19c -->
+				<xsd:element name="QualifiedEnergyCnsrvBondCrAmt" type="USDecimalAmountNN15DgtType">
+					<xsd:annotation>
+						<xsd:documentation>
+							<Description>Qualified energy conservation bonds. Enter the smaller of lines 19a or 19c</Description>
+							<LineNumber>Part III, line 20d</LineNumber>
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<!-- Qualified zone academy bonds, enter the smaller of lines 19a or 19c -->
+				<xsd:element name="QualifiedZoneAcademyBondCrAmt" type="USDecimalAmountNN15DgtType">
+					<xsd:annotation>
+						<xsd:documentation>
+							<Description>Qualified zone academy bonds, enter the smaller of lines 19a or 19c</Description>
+							<LineNumber>Part III, line 20e</LineNumber>
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<!-- Qualified school construction bonds, enter the smaller of lines 19a or 19c -->
+				<xsd:element name="QualifiedSchoolConstrBondCrAmt" type="USDecimalAmountNN15DgtType">
+					<xsd:annotation>
+						<xsd:documentation>
+							<Description>Qualified school construction bonds, enter the smaller of lines 19a or 19c</Description>
+							<LineNumber>Part III, line 20f</LineNumber>
+						</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:choice>
+
+			<!-- Group for Part III, Line 21a - 21c -->
+			<xsd:element name="NetIncreaseDecreaseGrp" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<xsd:choice>
+							<!-- Net increase to previous payments (see instructions) -->
+							<xsd:element name="NetIncreasePreviousPaymentAmt" type="USDecimalAmountPos15DgtType">
+								<xsd:annotation>
+									<xsd:documentation>
+										<Description>Net increase to previous payments (see instructions)</Description>
+										<LineNumber>Part III, line 21a</LineNumber>
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<!-- Net decrease to previous payments (see instructions) -->
+							<xsd:element name="NetDecreasePreviousPaymentAmt" type="USDecimalAmountNonPos15DgtType">
+								<xsd:annotation>
+									<xsd:documentation>
+										<Description>Net decrease to previous payments (see instructions)</Description>
+										<LineNumber>Part III, line 21b</LineNumber>
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+
+						<xsd:choice minOccurs="0">
+							<!-- Enter Explanation Code for lines 21a or 21b -->
+							<xsd:element name="NetIncreaseDecreaseExplnCd">
+								<xsd:annotation>
+									<xsd:documentation>
+										<Description>Enter Explanation Code for lines 21a or 21b</Description>
+										<LineNumber>Part III, line 21c</LineNumber>
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="TextType">
+										<xsd:enumeration value="211"/>
+										<xsd:enumeration value="212"/>
+										<xsd:enumeration value="213"/>
+										<xsd:enumeration value="214"/>
+										<xsd:enumeration value="215"/>
+										<xsd:enumeration value="216"/>
+										<xsd:enumeration value="217"/>
+										<xsd:enumeration value="218"/>
+										<xsd:enumeration value="219"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<!-- Enter Explanation Code for lines 21a or 21b (not previously defined) -->
+							<xsd:element name="NetIncreaseDecreaseExplnCdTxt">
+								<xsd:annotation>
+									<xsd:documentation>
+										<Description>Enter Explanation Code for lines 21a or 21b (not previously defined)</Description>
+										<LineNumber>Part III, line 21c</LineNumber>
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="TextType">
+										<xsd:maxLength value="3"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+						</xsd:choice>
+
+						<xsd:choice minOccurs="0">
+							<!-- Additional information for net increase or decrease explanation code. -->
+							<xsd:element name="NetIncreaseDecreaseShortDesc" type="LineExplanationType">
+								<xsd:annotation>
+									<xsd:documentation>
+										<Description>Additional information for net increase or decrease explanation code.</Description>
+										<LineNumber>Part III, line 21c</LineNumber>
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<!-- Additional information for net increase or decrease explanation code - Other. -->
+							<xsd:element name="NetIncreaseDecreaseDesc" type="ExplanationType">
+								<xsd:annotation>
+									<xsd:documentation>
+										<Description>Additional information for net increase or decrease explanation code - Other.</Description>
+										<LineNumber>Part III, line 21c</LineNumber>
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<!-- Amount of credit payment requested. Combine either line 20a, 20b, 20c, 20d, 20e, or 20f with lines 21a or line 21b. -->
+			<xsd:element name="CreditPaymentRequestedAmt" type="USDecimalAmountNN15DgtType">
+				<xsd:annotation>
+					<xsd:documentation>
+						<Description>Amount of credit payment requested. Combine either line 20a, 20b, 20c, 20d, 20e, or 20f with lines 21a or line 21b.</Description>
+						<LineNumber>Part III, line 22</LineNumber>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+
+			<!-- Has there been a change to the debt service schedule most recently filed with the IRS? -->
+			<xsd:element name="DebtServiceScheduleChangeInd">
+				<xsd:annotation>
+					<xsd:documentation>
+						<Description>Has there been a change to the debt service schedule most recently filed with the IRS?</Description>
+						<LineNumber>Part III, line 23a</LineNumber>
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="BooleanType">
+							<xsd:attribute name="referenceDocumentId" type="IdListType"/>
+							<xsd:attribute name="referenceDocumentName" type="StringType" fixed="BinaryAttachment"/>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+
+			<!-- Group for Part III, Line 23b -->
+			<xsd:element name="DebtServiceScheduleExplnGrp" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<xsd:choice minOccurs="0">
+							<!-- If "Yes", enter the  explanation code and attach the revised debt service schedule (see instructions). -->
+							<xsd:element name="DebtServiceScheduleExplnCd">
+								<xsd:annotation>
+									<xsd:documentation>
+										<Description>If "Yes", enter the explanation code and attach the revised debt service schedule (see instructions).</Description>
+										<LineNumber>Part III, line 23b</LineNumber>
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="TextType">
+										<xsd:enumeration value="231"/>
+										<xsd:enumeration value="232"/>
+										<xsd:enumeration value="233"/>
+										<xsd:enumeration value="234"/>
+										<xsd:enumeration value="235"/>
+										<xsd:enumeration value="236"/>
+										<xsd:enumeration value="237"/>
+										<xsd:enumeration value="238"/>
+										<xsd:enumeration value="239"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<!-- Enter Explanation Code for line 23b (not previously defined) -->
+							<xsd:element name="DebtServiceScheduleExplnCdTxt">
+								<xsd:annotation>
+									<xsd:documentation>
+										<Description>Enter Explanation Code for line 23b (not previously defined)</Description>
+										<LineNumber>Part III, line 23b</LineNumber>
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="TextType">
+										<xsd:maxLength value="3"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+						</xsd:choice>
+
+						<xsd:choice minOccurs="0">
+							<!-- Additional information for debt service schedule explanation code. -->
+							<xsd:element name="DebtServiceScheduleShortDesc" type="LineExplanationType">
+								<xsd:annotation>
+									<xsd:documentation>
+										<Description>Additional information for debt service schedule explanation code.</Description>
+										<LineNumber>Part III, line 23b</LineNumber>
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<!-- Additional information for debt service schedule explanation code. -->
+							<xsd:element name="DebtServiceScheduleDesc" type="ExplanationType">
+								<xsd:annotation>
+									<xsd:documentation>
+										<Description>Additional information for debt service schedule explanation code.</Description>
+										<LineNumber>Part III, line 23b</LineNumber>
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<!-- Have you paid or will you pay all the interest from line 19a on or before the date from line 18?  See instructions -->
+			<xsd:element name="InterestPaidBeforePaymentDtInd" type="BooleanType">
+				<xsd:annotation>
+					<xsd:documentation>
+						<Description>Have you paid or will you pay all the interest from line 19a on or before the date from line 18?  See instructions</Description>
+						<LineNumber>Part III, line 24a</LineNumber>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+
+			<!-- Group for Part III, Line 24b -->
+			<xsd:element name="IntNotPaidBfrPymtDtExplnGrp" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<xsd:choice minOccurs="0">
+							<!-- If "No", enter the explanation code -->
+							<xsd:element name="IntNotPaidBfrPymtDtExplnCd">
+								<xsd:annotation>
+									<xsd:documentation>
+										<Description>If "No", enter the explanation code</Description>
+										<LineNumber>Part III, line 24b</LineNumber>
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="TextType">
+										<xsd:enumeration value="241"/>
+										<xsd:enumeration value="242"/>
+										<xsd:enumeration value="243"/>
+										<xsd:enumeration value="244"/>
+										<xsd:enumeration value="245"/>
+										<xsd:enumeration value="246"/>
+										<xsd:enumeration value="247"/>
+										<xsd:enumeration value="248"/>
+										<xsd:enumeration value="249"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<!-- Enter Explanation Code for lines 24b (not previously defined) -->
+							<xsd:element name="IntNotPaidBfrPymtDtExplnCdTxt">
+								<xsd:annotation>
+									<xsd:documentation>
+										<Description>Enter Explanation Code for lines 24b (not previously defined)</Description>
+										<LineNumber>Part III, line 24b</LineNumber>
+									</xsd:documentation>
+								</xsd:annotation>
+								<xsd:simpleType>
+									<xsd:restriction base="TextType">
+										<xsd:maxLength value="3"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+						</xsd:choice>
+
+						<xsd:choice minOccurs="0">
+							<!-- Additional information for interest not paid before payment date explanation code. -->
+							<xsd:element name="IntNotPaidBfrPymtDtShortDesc" type="LineExplanationType">
+								<xsd:annotation>
+									<xsd:documentation>
+										<Description>Additional information for interest not paid before payment date explanation code.</Description>
+										<LineNumber>Part III, line 24b</LineNumber>
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<!-- Additional information for interest not paid before payment date explanation code. -->
+							<xsd:element name="IntNotPaidBfrPymtDtDesc" type="ExplanationType">
+								<xsd:annotation>
+									<xsd:documentation>
+										<Description>Additional information for interest not paid before payment date explanation code.</Description>
+										<LineNumber>Part III, line 24b</LineNumber>
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:choice>
+
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<!-- Is this return submitted for the final interest payment date for the bonds? -->
+			<xsd:element name="FinalInterestPaymentDtInd" type="BooleanType">
+				<xsd:annotation>
+					<xsd:documentation>
+						<Description>Is this return submitted for the final interest payment date for the bonds?</Description>
+						<LineNumber>Part III, line 25</LineNumber>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+
+			<!-- Routing Transit Number -->
+			<xsd:element name="RoutingTransitNum" type="RoutingTransitNumberType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>
+						<Description>Routing Transit Number</Description>
+						<LineNumber>Part III, line 26a</LineNumber>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+
+			<!-- Bank Account Type Code -->
+			<xsd:element name="BankAccountTypeCd" type="BankAccountType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>
+						<Description>Bank Account Type Code</Description>
+						<LineNumber>Part III, line 26b</LineNumber>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+
+			<!-- Account number -->
+			<xsd:element name="DepositorAccountNum" type="BankAccountNumberType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>
+						<Description>Account number</Description>
+						<LineNumber>Part III, line 26c</LineNumber>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="USDecimalAmountPos15DgtType">
+		<xsd:restriction base="DecimalNNType">
+			<xsd:totalDigits value="15"/>
+			<xsd:minExclusive value="0.00"/>
+			<xsd:maxInclusive value="9999999999999.99"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<xsd:simpleType name="USDecimalAmountNN15DgtType">
+		<xsd:restriction base="DecimalNNType">
+			<xsd:totalDigits value="15"/>
+			<xsd:minInclusive value="0.00"/>
+			<xsd:maxInclusive value="9999999999999.99"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="USDecimalAmountNonPos15DgtType">
+		<xsd:restriction base="DecimalType">
+			<xsd:totalDigits value="15"/>
+			<xsd:minInclusive value="-9999999999999.99"/>
+			<xsd:maxInclusive value="0.00"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+</xsd:schema>
